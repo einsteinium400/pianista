@@ -69,6 +69,7 @@ WindowManager:
             font_size: 50
             pos_hint:{"x":0,"y":0.22}
             text:"Please choose mode"
+            opacity:0.5
 
         Button:
             pos_hint:{"x":0.25,"y":0.3}
@@ -134,74 +135,96 @@ WindowManager:
             pos_hint:{"x":0,"y":0.22}
             text:"Click the note you think was played:"
 
-        Button:
-            pos_hint:{"x":0,"y":0.8}
-            text: 'For play\npress here'
-            on_release: app.countdown.count()
-            on_release: app.root.current = "PBMode"
+#        Button:
+#            pos_hint:{"x":0,"y":0.8}
+#            text: 'For play\npress here'
+#            on_press:
+#                root.play_generate_note()
 
-            on_state:
-                print("my current state is {}".format(self.state))
+        Button:
+            size_hint:0.11,0.12
+            id: start
+            pos_hint:{"x":0,"y":0.8}
+            text: 'Start'
+            on_press:
+                root.play_generate_note()
+
+        Button:
+            size_hint:0.11,0.12
+            pos_hint:{"x":0.12,"y":0.8}
+            text: 'Hear\nAgain'
+            on_press:
+                root.play_generate_note()
+
         Button:
             font_size: 50
             size_hint:0.11,0.12
             pos_hint:{"x":0.06,"y":0.4}
             text:"c"
-            on_release:
-                app.root.current = ""
+            id: 1
+            disabled: False
+            on_press:
+                root.note_clicked(self)
+            #TODO: maybe doesnt work!!!!
 
         Button:
             text:"d"
+            id: 2
             font_size: 50
             size_hint:0.11,0.12
+            disabled: False
             pos_hint:{"x":0.18,"y":0.4}
-            on_release:
-                root.manager.transition.direction = "right"
-                app.root.current = "main"
+            on_press:
+                root.note_clicked(self)
 
         Button:
             font_size: 50
+            id: 3
             size_hint:0.12,0.12
+            disabled: False
             pos_hint:{"x":0.30,"y":0.4}
             text:"e"
-            on_release:
-                root.manager.transition.direction = "right"
-                app.root.current = "main"
+            on_press:
+                root.note_clicked(self)
 
         Button:
             text:"f"
+            id: 4
             font_size: 50
             size_hint:0.12,0.12
+            disabled: False
             pos_hint:{"x":0.43,"y":0.4}
-            on_release:
-                root.manager.transition.direction = "right"
-                app.root.current = "main"
+            on_press:
+                root.note_clicked(self)
         Button:
             text:"g"
+            id: 5
             font_size: 50
             size_hint:0.12,0.12
+            disabled: False
             pos_hint:{"x":0.56,"y":0.4}
-            on_release:
-                root.manager.transition.direction = "right"
-                app.root.current = "main"
+            on_press:
+                root.note_clicked(self)
 
         Button:
             text:"a"
+            id: 6
             font_size: 50
             size_hint:0.12,0.12
+            disabled: False
             pos_hint:{"x":0.69,"y":0.4}
-            on_release:
-                root.manager.transition.direction = "right"
-                app.root.current = "main"
+            on_press:
+                root.note_clicked(self)
 
         Button:
             text:"b"
+            id: 7
             font_size: 50
             size_hint:0.12,0.12
+            disabled: False
             pos_hint:{"x":0.82,"y":0.4}
-            on_release:
-                root.manager.transition.direction = "right"
-                app.root.current = "main"
+            on_press:
+                root.note_clicked(self)
 # TODO: how to make a countdown timer on click????!
 
     Button:

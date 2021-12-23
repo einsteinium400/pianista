@@ -87,7 +87,6 @@ class AbsoluteHearing(Screen):
     def __init__(self, **kw):
         self.ah = AbsoluteHearingMode()
         super().__init__(**kw)
-        self.ah.generate_random_note()
         # this item holds object of class notereadingpractice
 
     def note_clicked(self, instance):
@@ -99,7 +98,6 @@ class AbsoluteHearing(Screen):
 
             # audio of success sound
             self.ah.generate_random_note()
-
 
             # Resets the notes buttons
             for i in range(1, 8):
@@ -126,6 +124,10 @@ class AbsoluteHearing(Screen):
         self.ah.sound_note()
         if 'start' in self.ids:
             self.ids['start'].disabled = True
+
+    def start(self):
+        self.ah.generate_random_note()
+        self.play_generate_note()
 
 
 class NoteReading(Screen):

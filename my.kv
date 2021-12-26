@@ -143,9 +143,10 @@ WindowManager:
 
         Button:
             size_hint:0.11,0.12
-            id: start
+            id: 9
             pos_hint:{"x":0,"y":0.8}
             text: 'Start'
+            disabled: False
             on_press:
                 root.start()
 
@@ -153,6 +154,8 @@ WindowManager:
             size_hint:0.11,0.12
             pos_hint:{"x":0.12,"y":0.8}
             text: 'Hear\nAgain'
+            disabled: True
+            id: 8
             on_press:
                 root.play_generate_note()
 
@@ -162,7 +165,7 @@ WindowManager:
             pos_hint:{"x":0.06,"y":0.4}
             text:"c"
             id: 1
-            disabled: False
+            disabled: True
             on_press:
                 root.note_clicked(self)
             #TODO: maybe doesnt work!!!!
@@ -172,7 +175,7 @@ WindowManager:
             id: 2
             font_size: 50
             size_hint:0.11,0.12
-            disabled: False
+            disabled: True
             pos_hint:{"x":0.18,"y":0.4}
             on_press:
                 root.note_clicked(self)
@@ -181,7 +184,7 @@ WindowManager:
             font_size: 50
             id: 3
             size_hint:0.12,0.12
-            disabled: False
+            disabled: True
             pos_hint:{"x":0.30,"y":0.4}
             text:"e"
             on_press:
@@ -192,7 +195,7 @@ WindowManager:
             id: 4
             font_size: 50
             size_hint:0.12,0.12
-            disabled: False
+            disabled: True
             pos_hint:{"x":0.43,"y":0.4}
             on_press:
                 root.note_clicked(self)
@@ -201,7 +204,7 @@ WindowManager:
             id: 5
             font_size: 50
             size_hint:0.12,0.12
-            disabled: False
+            disabled: True
             pos_hint:{"x":0.56,"y":0.4}
             on_press:
                 root.note_clicked(self)
@@ -211,7 +214,7 @@ WindowManager:
             id: 6
             font_size: 50
             size_hint:0.12,0.12
-            disabled: False
+            disabled: True
             pos_hint:{"x":0.69,"y":0.4}
             on_press:
                 root.note_clicked(self)
@@ -221,7 +224,7 @@ WindowManager:
             id: 7
             font_size: 50
             size_hint:0.12,0.12
-            disabled: False
+            disabled: True
             pos_hint:{"x":0.82,"y":0.4}
             on_press:
                 root.note_clicked(self)

@@ -29,8 +29,14 @@ class AbsoluteHearingMode(Game):
             return True
         return False
 
-    def sound_note(self):
-        filename = self.current_note["audio_file"]
+    def sound_note(self, sound=''):
+        if sound:
+            filename = sound
+        else:
+            filename = self.current_note["audio_file"]
         wave_obj = sa.WaveObject.from_wave_file(filename)
         play_obj = wave_obj.play()
-        play_obj.is_playing()  # Wait until sound has finished playing
+        if filename == 'mp3/correct.wav':
+            play_obj.wait_done()  # Wait until sound has finished playing
+        else:
+            play_obj.is_playing()  # Not wait until sound has finished playing

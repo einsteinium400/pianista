@@ -92,42 +92,48 @@ class AbsoluteHearing(Screen):
     def note_clicked(self, instance):
 
         self.ah.detected_note = instance.text
+        # check the answer
         result = self.ah.note_compare()
         # if user is right
         if result:
 
-            # audio of success sound
-            self.ah.generate_random_note()
-
-            # Resets the notes buttons
+            # reset the note bottoms's disables
             for i in range(1, 8):
-                self.ids[str(i)].disabled = False
-            # define an object to play
-            wave_object = sa.WaveObject.from_wave_file('mp3/correct.wav')
-            # define an object to control the play
-            play_object = wave_object.play()
-            play_object.wait_done()
+                if self.ids[str(i)].disabled:
+                    self.disabled_bottom(i)
+            # play correct answer
+            self.ah.sound_note('mp3/correct.wav')
+            time.sleep(1)
+            self.ah.generate_random_note()
             self.ah.sound_note()
 
 
         else:
             instance.disabled = True
-            # define an object to play
-            wave_object = sa.WaveObject.from_wave_file('mp3/wrong.wav')
-
-            # define an object to control the play
-            play_object = wave_object.play()
-            play_object.is_playing()
+            # play wrong answer
+            self.ah.sound_note('mp3/wrong.wav')
 
     def play_generate_note(self):
         # play the generate note on_press
         self.ah.sound_note()
-        if 'start' in self.ids:
-            self.ids['start'].disabled = True
 
     def start(self):
         self.ah.generate_random_note()
         self.play_generate_note()
+        # Make the buttons available
+        for i in range(1, 10):
+            self.disabled_bottom(i)
+
+    # num1 and num2 is the range of id's bottoms we want to change their disabled
+    def disabled_bottom(self, num1):
+        # print(self.ids[str(num1)].disabled)
+        #     if disabled==True change to False
+        if self.ids[str(num1)].disabled:
+            self.ids[str(num1)].disabled = False
+        # if disabled==False change to True
+        else:
+            self.ids[str(num1)].disabled = True
+        return
 
 
 class NoteReading(Screen):

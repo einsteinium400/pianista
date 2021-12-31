@@ -6,7 +6,6 @@ WindowManager:
     AbsoluteHearing:
     NoteReading:
 <Button>
-    # TODO: to cheak why background_down not working.
     background_down:"lightsteelblue"
     font_name:'Amadeus'
     halign: 'center'
@@ -14,6 +13,38 @@ WindowManager:
     background_normal:''
     background_color: (212/255, 186/255, 154/255,1)
     font_size: 28
+<Absolute_button@Button>:
+    font_size: 50
+    size_hint:0.11,0.12
+    disabled: True
+<Choose_Mode@Label>:
+    font_size: 50
+    pos_hint:{"x":0,"y":0.22}
+    text:"Please choose mode"
+<Go_Back_Button@Button>:
+    size_hint:0.15,0.15
+    text:"Go Back"
+<ScatterLayout>
+    Choose_Mode:
+    Button:
+        pos_hint:{"x":0.25,"y":0.3}
+        text:"Rhythm\npractice"
+        on_release:
+            app.root.transition.direction = "left"
+            app.root.current = "Rhythm practice"
+
+    Button:
+        pos_hint:{"x":0.51,"y":0.3}
+        text:"Note reading\npractice"
+        on_release:
+            app.root.current = "NoteReading"
+
+
+    Go_Back_Button:
+        on_release:
+            app.root.transition.direction = "right"
+            app.root.current = "main"
+
 
 <FloatLayout>
         #title
@@ -28,7 +59,6 @@ WindowManager:
     font_name:'Amadeus'
 <MainWindow>:
     name:"main"
-           # TODO:make abstract layout for all pages below
     FloatLayout:
         Label:
             font_size: 50
@@ -41,7 +71,6 @@ WindowManager:
             on_release:
                 root.manager.transition.direction = "left"
                 app.root.current = "Beginner"
-                self.background_color = 'burlywood'
                 #on_release=root.experty=0
 
 
@@ -51,7 +80,6 @@ WindowManager:
             on_release:
                 app.root.current="Intermediate"
                 root.manager.transition.direction = "left"
-                self.background_color = (212/255, 186/255, 154/255,0.7)
               #  on_release=root.experty=1
 
 
@@ -64,47 +92,20 @@ WindowManager:
 
 <BeginnerWindow>:
     name: "Beginner"
-    FloatLayout:
-        Label:
-            font_size: 50
-            pos_hint:{"x":0,"y":0.22}
-            text:"Please choose mode"
-            opacity:0.5
+    ScatterLayout:
 
-        Button:
-            pos_hint:{"x":0.25,"y":0.3}
-            text:"Rhythm\npractice"
-            on_release:
-                root.manager.transition.direction = "left"
-                app.root.current = "Rhythm practice"
-                self.background_color = (212/255, 186/255, 154/255,0.7)
-        Button:
-            pos_hint:{"x":0.51,"y":0.3}
-            text:"Note reading\npractice"
-            on_release:
-                root.manager.transition.direction = "left"
-                app.root.current="NoteReading"
 
-        Button:
-            text:"Go Back"
-            on_release:
-                root.manager.transition.direction = "right"
-                app.root.current = "main"
 
 <IntermediateWindow>:
     name:"Intermediate"
-    BeginnerWindow:
-
+    ScatterLayout:
 
 
 <ExpertWindow>:
     name:"Expert"
     FloatLayout:
 
-        Label:
-            font_size: 50
-            pos_hint:{"x":0,"y":0.22}
-            text:"Please choose mode"
+        Choose_Mode:
 
         Button:
             pos_hint:{"x":0.25,"y":0.3}
@@ -120,8 +121,7 @@ WindowManager:
             disabled: True
 
 
-        Button:
-            text:"Go Back"
+        Go_Back_Button:
             on_release:
                 root.manager.transition.direction = "right"
                 app.root.current = "main"
@@ -135,103 +135,82 @@ WindowManager:
             pos_hint:{"x":0,"y":0.22}
             text:"Click the note you think was played:"
 
-#        Button:
-#            pos_hint:{"x":0,"y":0.8}
-#            text: 'For play\npress here'
-#            on_press:
-#                root.play_generate_note()
-
-        Button:
-            size_hint:0.11,0.12
-            id: 9
+        Absolute_button:
+            font_size: 28
+            id: 10
             pos_hint:{"x":0,"y":0.8}
             text: 'Start'
             disabled: False
             on_press:
                 root.start()
 
-        Button:
-            size_hint:0.11,0.12
+        Absolute_button:
+            font_size: 28
             pos_hint:{"x":0.12,"y":0.8}
             text: 'Hear\nAgain'
-            disabled: True
             id: 8
             on_press:
                 root.play_generate_note()
 
-        Button:
-            font_size: 50
-            size_hint:0.11,0.12
+        Absolute_button:
+            font_size: 28
+            icon: 'images/lamp.png'
+            text: 'Answer'
+            id: 9
+            pos_hint:{"x":0.24,"y":0.8}
+            on_press:
+                root.get_answer()
+
+        Absolute_button:
             pos_hint:{"x":0.06,"y":0.4}
             text:"c"
             id: 1
-            disabled: True
             on_press:
                 root.note_clicked(self)
-            #TODO: maybe doesnt work!!!!
 
-        Button:
+        Absolute_button:
             text:"d"
             id: 2
-            font_size: 50
-            size_hint:0.11,0.12
-            disabled: True
-            pos_hint:{"x":0.18,"y":0.4}
+            pos_hint:{"x":0.185,"y":0.4}
             on_press:
                 root.note_clicked(self)
 
-        Button:
-            font_size: 50
+        Absolute_button:
             id: 3
-            size_hint:0.12,0.12
-            disabled: True
-            pos_hint:{"x":0.30,"y":0.4}
+            pos_hint:{"x":0.31,"y":0.4}
             text:"e"
             on_press:
                 root.note_clicked(self)
 
-        Button:
+        Absolute_button:
             text:"f"
             id: 4
-            font_size: 50
-            size_hint:0.12,0.12
-            disabled: True
-            pos_hint:{"x":0.43,"y":0.4}
+            pos_hint:{"x":0.435,"y":0.4}
             on_press:
                 root.note_clicked(self)
-        Button:
+        Absolute_button:
             text:"g"
             id: 5
-            font_size: 50
-            size_hint:0.12,0.12
-            disabled: True
             pos_hint:{"x":0.56,"y":0.4}
             on_press:
                 root.note_clicked(self)
 
-        Button:
+        Absolute_button:
             text:"a"
             id: 6
-            font_size: 50
-            size_hint:0.12,0.12
-            disabled: True
-            pos_hint:{"x":0.69,"y":0.4}
+            pos_hint:{"x":0.685,"y":0.4}
             on_press:
                 root.note_clicked(self)
 
-        Button:
+        Absolute_button:
             text:"b"
             id: 7
-            font_size: 50
-            size_hint:0.12,0.12
-            disabled: True
-            pos_hint:{"x":0.82,"y":0.4}
+            pos_hint:{"x":0.81,"y":0.4}
             on_press:
                 root.note_clicked(self)
 # TODO: how to make a countdown timer on click????!
 
-    Button:
-        text:"Go Back"
+    Go_Back_Button:
         on_release:
             root.manager.transition.direction = "right"
             app.root.current = "main"
@@ -248,13 +227,13 @@ WindowManager:
         Rectangle:
             pos: self.pos
             size: self.size
-
     canvas:
         Color:
             rgba:(0,0,0, 1)
         Rectangle:
             pos: 0, root.top
             size: root.width, 200
+
 
         # Treble clef lines
         Rectangle:
@@ -317,7 +296,6 @@ WindowManager:
             group: 'noteline2'
             pos: (root.width/2 - (self.barwidth / 2)+5,  root.top - self.bottomline_treble - self.barspace * 2)
             size: (self.barwidth, self.barheight)
-
     Image:
         source: "images/treble.png"
         #size: (0.1,0.5)
@@ -333,42 +311,11 @@ WindowManager:
         #allow_stretch: True
         keep_ratio: False
         pos: -370, root.top - 700
+
     Label:
         font_size: 50
         pos_hint:{"x":0,"y":0.22}
         text:"Note Reading Practice"
-    Button:
-        id: noteBtn
-        text: "Start"
-        font_size: 20
-        size_hint:0.1,0.1
-        size: 120, 80
-        pos: root.top-600, root.top -110
-        on_press: root.generate_note()
-        on_release: root.remove_widget(self)
-        background_color: 212/255, 186/255, 154/255,1
-
-    Button:
-        id: stopBtn
-        text: "Stop"
-        font_size: 20
-        size_hint:0.1,0.1
-        size: 120, 80
-        pos: root.top-500, root.top -110
-        on_press: root.generate_note()
-        on_release: root.remove_widget(self)
-        background_color: 212/255, 186/255, 154/255,1
-
-    Button:
-        id: recordBtn
-        text: "Record"
-        font_size: 20
-        size_hint:0.1,0.1
-        size: 120, 80
-        pos: root.top-400, root.top -110
-        on_press: root.generate_note()
-        on_release: root.remove_widget(self)
-        background_color: 212/255, 186/255, 154/255,1
 
     Label:
         id: noteGuess
@@ -376,10 +323,16 @@ WindowManager:
         font_size: 40
         color: (0.8, 0.8, 0.8)
         pos: (root.width / 2 - 50, root.top - 100)
-
     Button:
-        size_hint:0.15,0.15
-        text:"Go Back"
+        pos: root.top-600, root.top -110
+        font_size: 40
+        size_hint:0.1,0.1
+        size: 100, 60
+        text:"i"
+        font_name:'Times'
+
+
+    Go_Back_Button:
         on_release:
             root.manager.transition.direction = "right"
             app.root.current = "main"

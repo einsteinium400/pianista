@@ -3,8 +3,9 @@ import json
 # for generate random note
 import os
 import random
-
+from kivy.clock import Clock
 # import required module
+from kivy.animation import Animation
 import simpleaudio as sa
 
 # for note compare
@@ -100,14 +101,12 @@ class AbsoluteHearing(Screen):
             # reset the note bottoms's disables
             for i in range(1, 8):
                 if self.ids[str(i)].disabled:
-                    self.disabled_bottom(i)
+                    self.init_bottom(i)
             # play correct answer
             self.ah.sound_note('mp3/correct.wav')
             time.sleep(1)
             self.ah.generate_random_note()
             self.ah.sound_note()
-
-
         else:
             instance.disabled = True
             # play wrong answer
@@ -117,15 +116,25 @@ class AbsoluteHearing(Screen):
         # play the generate note on_press
         self.ah.sound_note()
 
+    def get_answer(self):
+        # Find the button's answer id
+        for i in range(1, 8):
+            if self.ah.current_note['name'][0].lower() in self.ids[str(i)].text:
+                id_b = str(i)
+        # animation on the right answer that color the note
+        anim = Animation(background_color=[0, 0, 0, 0]) + Animation(
+            background_color=[212 / 255, 186 / 255, 154 / 255, 1])
+        anim.start(self.ids[id_b])
+
     def start(self):
         self.ah.generate_random_note()
         self.play_generate_note()
         # Make the buttons available
-        for i in range(1, 10):
-            self.disabled_bottom(i)
+        for i in range(1, 11):
+            self.init_bottom(i)
 
     # num1 and num2 is the range of id's bottoms we want to change their disabled
-    def disabled_bottom(self, num1):
+    def init_bottom(self, num1):
         # print(self.ids[str(num1)].disabled)
         #     if disabled==True change to False
         if self.ids[str(num1)].disabled:
@@ -133,6 +142,8 @@ class AbsoluteHearing(Screen):
         # if disabled==False change to True
         else:
             self.ids[str(num1)].disabled = True
+
+
         return
 
 
@@ -164,7 +175,7 @@ class NoteReading(Screen):
     #   self.event_obj = threading.Event()
 
     def notedisplaylogic(self):
-        while (True):
+        while True:
 
             self.notespractice.generate_random_note()
 
@@ -236,7 +247,11 @@ class NoteReading(Screen):
 
 # the Base Class of our Kivy App
 class MyApp(App):
+    icon = 'images/icon.png'
+    title = 'Pianista'
     def build(self):
+        # self.icon = 'images/pianista.png'
+        # self.title = 'Pianista'
         pass
 
 

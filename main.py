@@ -143,7 +143,6 @@ class AbsoluteHearing(Screen):
         else:
             self.ids[str(num1)].disabled = True
 
-
         return
 
 
@@ -249,6 +248,7 @@ class NoteReading(Screen):
 class MyApp(App):
     icon = 'images/icon.png'
     title = 'Pianista'
+
     def build(self):
         # self.icon = 'images/pianista.png'
         # self.title = 'Pianista'
@@ -256,4 +256,6 @@ class MyApp(App):
 
 
 if __name__ == '__main__':
-    MyApp().run()
+    app = MyApp()
+    app.run()
+    app.root_window.close()

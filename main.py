@@ -46,29 +46,52 @@ from NoteReadingPractice import NoteReadingPractice
 
 
 class MainWindow(Screen, FloatLayout):
+    """
+
+    A class used to link between the GUi and the games.
+
+    Attributes:
+
+    experty (int): The experty the user chose.
+    """
     def __init__(self, **kwargs):
         self.experty = 0
         super().__init__(**kwargs)
 
 
 class BeginnerWindow(Screen):
+    """
+    A class used to create Beginner Window.
+    """
     pass
 
 
 class IntermediateWindow(Screen):
+    """
+    A class used to create Intermediate Window.
+    """
     pass
 
 
 class ExpertWindow(Screen):
+    """
+    A class used to create Expert Window.
+    """
     pass
 
 
 class WindowManager(ScreenManager):
+    """
+    A class used to create Window Manager.
+    """
     pass
 
 
 class CountDown(ProgressBar):
-
+    """
+    ???
+    """
+# TODO : do documentation
     def count(self):
         self.ids.pb.value = 60
         seconds = 60

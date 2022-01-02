@@ -25,7 +25,10 @@ class NoteReadingPractice(Game):
 
        Attributes:
 
-       A child of Game class- means it has the attributes and methods of Game
+        data (array): Contains all notes.
+        arr (array): Get value in games's implementation.
+        current_note (array): Get value in games's implementation.
+        detected_note (array): The current note the user chose.
 
        Methods:
 
@@ -98,6 +101,7 @@ class NoteReadingPractice(Game):
         # print("Play Audio Complete")
 
     def detect_note(self, audio_file):
+        # TODO : do documentation
         file_length = audio_file.getnframes()
         f_s = audio_file.getframerate()  # sampling frequency
         sound = np.zeros(file_length)  # blank array

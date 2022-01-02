@@ -10,7 +10,10 @@ class AbsoluteHearingMode(Game):
 
     Attributes:
 
-    A child of Game class- means it has the attributes and methods of Game
+    data (array): Contains all notes.
+    arr (array): Get value in games's implementation.
+    current_note (array): Get value in games's implementation.
+    detected_note (array): The current note the user chose.
 
     Methods:
 

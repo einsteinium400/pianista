@@ -38,14 +38,6 @@ class Game:
     """
 
     def __init__(self):
-        """
-       Parameters:
-
-       data (array): Contains all notes.
-       arr (array): Get value in games's implementation.
-       current_note (array): Get value in games's implementation.
-       detected_note (array): The current note the user chose.
-        """
         f = open('myfile.json', "r")
         self.data = json.loads(f.read())
         self.arr = []

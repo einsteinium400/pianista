@@ -29,6 +29,7 @@ WindowManager:
     Button:
         pos_hint:{"x":0.25,"y":0.3}
         text:"Rhythm\npractice"
+        disabled: True
         on_release:
             app.root.transition.direction = "left"
             app.root.current = "Rhythm practice"
@@ -92,12 +93,14 @@ WindowManager:
 
 <BeginnerWindow>:
     name: "Beginner"
+    FloatLayout:
     ScatterLayout:
 
 
 
 <IntermediateWindow>:
     name:"Intermediate"
+    FloatLayout:
     ScatterLayout:
 
 

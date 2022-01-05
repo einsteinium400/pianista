@@ -107,6 +107,28 @@ class CountDown(ProgressBar):
 
 
 class AbsoluteHearing(Screen):
+    """
+
+    A class used to link between the GUi and the AbsoluteHearing game.
+
+    Attributes:
+
+    ah (AbsoluteHearing object): Instance's game.
+
+   Methods:
+
+   note_clicked(self, instance)
+        Gets the note the user selected from the GUI, compare and return feedback.
+   generate_random_note(self)
+       On_click the 'Hear Again' button- the generate note will be play again.
+   get_answer(self)
+        On_click the 'Answer' button- the answer will be displayed by animation.
+   start(self)
+        On_click the 'Start' button- the game will start and all the buttons will become available.
+   init_bottom(self, num1)
+        Turning buttons unavailable to available and oppositely.
+
+    """
 
     def __init__(self, **kw):
         self.ah = AbsoluteHearingMode()
@@ -114,6 +136,17 @@ class AbsoluteHearing(Screen):
         # this item holds object of class notereadingpractice
 
     def note_clicked(self, instance):
+        """
+
+        Gets the note the user selected from the GUI.
+        compare between the notes and return feedback.
+        If the user is right- Sound of success will be heard and the game will continue.
+        Else- Sound will be played accordingly and the note button will turn off.
+
+        Attributes:
+
+        result (int): The result of note_compare().
+        """
 
         self.ah.detected_note = instance.text
         # check the answer
@@ -136,10 +169,25 @@ class AbsoluteHearing(Screen):
             self.ah.sound_note('mp3/wrong.wav')
 
     def play_generate_note(self):
+        """
+
+        On_click the 'Hear Again' button- the generate note will be play again by AbsoluteHearingMode function.
+
+        """
         # play the generate note on_press
         self.ah.sound_note()
 
     def get_answer(self):
+        """
+
+        First we find the button of the answer and then the animation will be done.
+
+        Attributes:
+
+        id_b (str): Answer button's id.
+
+        anim (kivy.animation.Sequence): Animated action
+        """
         # Find the button's answer id
         for i in range(1, 8):
             if self.ah.current_note['name'][0].lower() in self.ids[str(i)].text:
@@ -147,9 +195,15 @@ class AbsoluteHearing(Screen):
         # animation on the right answer that color the note
         anim = Animation(background_color=[0, 0, 0, 0]) + Animation(
             background_color=[212 / 255, 186 / 255, 154 / 255, 1])
+        print(type(anim))
         anim.start(self.ids[id_b])
 
     def start(self):
+        """
+
+        On_click the 'Start' button- the game will start and all the buttons will become available.
+
+        """
         self.ah.generate_random_note()
         self.play_generate_note()
         # Make the buttons available
@@ -158,6 +212,12 @@ class AbsoluteHearing(Screen):
 
     # num1 and num2 is the range of id's bottoms we want to change their disabled
     def init_bottom(self, num1):
+        """
+
+        Turning buttons unavailable to available and oppositely.
+
+        """
+
         # print(self.ids[str(num1)].disabled)
         #     if disabled==True change to False
         if self.ids[str(num1)].disabled:
@@ -165,7 +225,6 @@ class AbsoluteHearing(Screen):
         # if disabled==False change to True
         else:
             self.ids[str(num1)].disabled = True
-
         return
 
 

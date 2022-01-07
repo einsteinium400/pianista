@@ -6,8 +6,11 @@ import random
 from kivy.clock import Clock
 # import required module
 from kivy.animation import Animation
-import simpleaudio as sa
 
+# from kivy.uix.popup
+# import Popup
+
+import simpleaudio as sa
 # for note compare
 import time
 import math

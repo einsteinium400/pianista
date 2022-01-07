@@ -1,3 +1,4 @@
+#:import Factory kivy.factory.Factory
 WindowManager:
     MainWindow:
     BeginnerWindow:
@@ -24,6 +25,48 @@ WindowManager:
 <Go_Back_Button@Button>:
     size_hint:0.15,0.15
     text:"Go Back"
+<Information@Button>:
+
+    size_hint:0.10,0.12
+    pos_hint:{"right":0.98,"y":0.81}
+    font_size: 40
+    text:"i"
+    background_color: (0,0,0,0)
+	background_normal: ''
+    canvas.before:
+        Color:
+            rgba: (212/255, 186/255, 154/255,1)
+        RoundedRectangle:
+            size: self.size
+            pos: self.pos
+            radius: [58]
+
+<Popup>:
+    separator_color:'white'
+    #background_color: (0,0,0,0)
+    title_size:20
+    title: "Instructions"
+    size_hint: .5, .5
+    auto_dismiss: True
+
+<Absolute_popup@Popup>:
+    Label:
+        color:'white'
+        size_hint: 0.6,0.2
+        pos_hint: {"x":0.2,"y":0.5}
+        font_name:'Arial'
+        font_size:22
+        text: "To start developing your sense \nof absolute hearing:\nThe system will generate a single note.\nPick the note you think you heard.\n\nEnjoy!"
+
+<Note_reading_popup@Popup>:
+    Label:
+        color:'white'
+        size_hint: 0.6,0.2
+        pos_hint: {"x":0.2,"y":0.45}
+        font_name:'Arial'
+        font_size:17.5
+        text: "In order to improve note reading: \nThe system will randomly generate a single note \nand show it to you on the screen. \nClick on the same note on the piano. \nIf the answer is correct the note turns green. \nIf you made a mistake the note you clicked \nturns red and you can try again.\n\nEnjoy!"
+
 <ScatterLayout>
     Choose_Mode:
     Button:
@@ -116,7 +159,6 @@ WindowManager:
             on_release:
                 root.manager.transition.direction = "left"
                 app.root.current = "AbsoluteHearing"
-                self.background_color = (212/255, 186/255, 154/255,0.7)
 
         Button:
             pos_hint:{"x":0.51,"y":0.3}
@@ -137,11 +179,14 @@ WindowManager:
             font_size: 50
             pos_hint:{"x":0,"y":0.22}
             text:"Click the note you think was played:"
+        Information:
+            font_name:'Times'
+            on_press:  Factory.Absolute_popup().open()
 
         Absolute_button:
             font_size: 28
             id: 10
-            pos_hint:{"x":0,"y":0.8}
+            pos_hint:{"x":0.03,"y":0.8}
             text: 'Start'
             disabled: False
             on_press:
@@ -149,7 +194,7 @@ WindowManager:
 
         Absolute_button:
             font_size: 28
-            pos_hint:{"x":0.12,"y":0.8}
+            pos_hint:{"x":0.15,"y":0.8}
             text: 'Hear\nAgain'
             id: 8
             on_press:
@@ -160,7 +205,7 @@ WindowManager:
             icon: 'images/lamp.png'
             text: 'Answer'
             id: 9
-            pos_hint:{"x":0.24,"y":0.8}
+            pos_hint:{"x":0.27,"y":0.8}
             on_press:
                 root.get_answer()
 
@@ -326,13 +371,10 @@ WindowManager:
         font_size: 40
         color: (0.8, 0.8, 0.8)
         pos: (root.width / 2 - 50, root.top - 100)
-    Button:
-        pos: root.top-600, root.top -110
-        font_size: 40
-        size_hint:0.1,0.1
-        size: 100, 60
-        text:"i"
+
+    Information:
         font_name:'Times'
+        on_press:  Factory.Note_reading_popup().open()
 
 
     Go_Back_Button:

@@ -1,5 +1,6 @@
 #:import Factory kivy.factory.Factory
 WindowManager:
+    OpenWindow:
     MainWindow:
     BeginnerWindow:
     IntermediateWindow:
@@ -101,6 +102,13 @@ WindowManager:
 <Label>
     color: (0.2, 0, 0,1)
     font_name:'Amadeus'
+<OpenWindow>:
+    name:"open"
+    #Image:
+        #id: "icon"
+        #source:'images/pianista.png'
+        #size: self.texture_size
+
 <MainWindow>:
     name:"main"
     FloatLayout:
@@ -115,7 +123,6 @@ WindowManager:
             on_release:
                 root.manager.transition.direction = "left"
                 app.root.current = "Beginner"
-                #on_release=root.experty=0
 
 
         Button:
@@ -124,7 +131,6 @@ WindowManager:
             on_release:
                 app.root.current="Intermediate"
                 root.manager.transition.direction = "left"
-              #  on_release=root.experty=1
 
 
         Button:

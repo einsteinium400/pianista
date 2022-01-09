@@ -39,13 +39,29 @@ from time import sleep
 
 from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import StringProperty
+
 from kivy.clock import mainthread
 
+from kivy.uix.image import Image, AsyncImage
 import threading
 import time
 
 from AbsoluteHearingMode import AbsoluteHearingMode
 from NoteReadingPractice import NoteReadingPractice
+
+
+class OpenWindow(Screen):
+    
+    def __init__(self, **kwargs):
+        super(OpenWindow, self).__init__(**kwargs)
+        self.logo = Image(source='images/pianista.png', opacity=0)
+        animated_icon = Animation(opacity=0.5) + Animation(opacity=1)
+        self.add_widget(self.logo)
+        animated_icon.start(self.logo)
+        Clock.schedule_once(self.callNext, 4)
+
+    def callNext(self, dt):
+        self.manager.current = 'main'
 
 
 class MainWindow(Screen, FloatLayout):
@@ -57,6 +73,7 @@ class MainWindow(Screen, FloatLayout):
 
     experty (int): The experty the user chose.
     """
+
     def __init__(self, **kwargs):
         self.experty = 0
         super().__init__(**kwargs)
@@ -94,7 +111,8 @@ class CountDown(ProgressBar):
     """
     ???
     """
-# TODO : do documentation
+
+    # TODO : do documentation
     def count(self):
         self.ids.pb.value = 60
         seconds = 60
@@ -335,9 +353,15 @@ class MyApp(App):
     title = 'Pianista'
 
     def build(self):
+        # Create the screen manager
+        sm = ScreenManager()
+        # sm.add_widget(MenuScreen(name='menu'))
+        # sm.add_widget(SettingsScreen(name='settings'))
+
+        sm.switch_to(Screen(name='MainWindow'), direction='right')
+        # return sm
         # self.icon = 'images/pianista.png'
         # self.title = 'Pianista'
-        pass
 
 
 if __name__ == '__main__':

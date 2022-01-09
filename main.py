@@ -51,7 +51,7 @@ from NoteReadingPractice import NoteReadingPractice
 
 
 class OpenWindow(Screen):
-    
+
     def __init__(self, **kwargs):
         super(OpenWindow, self).__init__(**kwargs)
         self.logo = Image(source='images/pianista.png', opacity=0)

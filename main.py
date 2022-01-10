@@ -54,10 +54,17 @@ class OpenWindow(Screen):
 
     def __init__(self, **kwargs):
         super(OpenWindow, self).__init__(**kwargs)
+        # sound open song
+        filename = 'wav_files/open_song.wav'
+        wave_obj = sa.WaveObject.from_wave_file(filename)
+        play_obj = wave_obj.play()
+        play_obj.is_playing()
+        # animation of logo
         self.logo = Image(source='images/pianista.png', opacity=0)
         animated_icon = Animation(opacity=0.5) + Animation(opacity=1)
         self.add_widget(self.logo)
         animated_icon.start(self.logo)
+        # go to next page after 4 seconds
         Clock.schedule_once(self.callNext, 4)
 
     def callNext(self, dt):

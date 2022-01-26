@@ -1,19 +1,10 @@
-import json
-
-# for generate random note
-import os
 import random
 
-# for note compare
-import time
-import math
-import wave
 import struct
 import numpy as np
 
 # for note record
 import sounddevice as sd
-import scipy.io.wavfile as wav
 from scipy.io.wavfile import write
 import Game
 from Game import Game

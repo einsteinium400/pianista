@@ -3,49 +3,22 @@ import json
 # for generate random note
 import os
 import random
-from kivy.clock import Clock
-# import required module
 from kivy.animation import Animation
-
-# from kivy.uix.popup
-# import Popup
-
 import simpleaudio as sa
 # for note compare
 import time
-import math
 import wave
-import struct
-import numpy as np
 
-# for note record
-import sounddevice as sd
-import scipy.io.wavfile as wav
-from scipy.io.wavfile import write
-import kivy
 from kivy.clock import Clock
-from kivy.lang import Builder
-from kivy.uix.screenmanager import ScreenManager, Screen
-from kivy.uix.widget import Widget
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.progressbar import ProgressBar
-from kivy.app import App
-from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen, FadeTransition
 from kivy.graphics import *
 from kivy.app import App
-from kivy.lang import Builder
 from time import sleep
-
-from kivy.uix.boxlayout import BoxLayout
-from kivy.properties import StringProperty
-
 from kivy.clock import mainthread
-
 from kivy.uix.image import Image, AsyncImage
 import threading
-import time
-
 from AbsoluteHearingMode import AbsoluteHearingMode
 from NoteReadingPractice import NoteReadingPractice
 
@@ -153,7 +126,7 @@ class AbsoluteHearing(Screen):
         On_click the 'Answer' button- the answer will be displayed by animation.
    start(self)
         On_click the 'Start' button- the game will start and all the buttons will become available.
-   init_bottom(self, num1)
+   init_button(self, num1)
         Turning buttons unavailable to available and oppositely.
 
     """
@@ -185,7 +158,7 @@ class AbsoluteHearing(Screen):
             # reset the note bottoms's disables
             for i in range(1, 8):
                 if self.ids[str(i)].disabled:
-                    self.init_bottom(i)
+                    self.init_button(i)
             # play correct answer
             self.ah.sound_note('mp3/correct.wav')
             time.sleep(1)
@@ -236,10 +209,10 @@ class AbsoluteHearing(Screen):
         self.play_generate_note()
         # Make the buttons available
         for i in range(1, 11):
-            self.init_bottom(i)
+            self.init_button(i)
 
     # num1 and num2 is the range of id's bottoms we want to change their disabled
-    def init_bottom(self, num1):
+    def init_button(self, num1):
         """
 
         Turning buttons unavailable to available and oppositely.

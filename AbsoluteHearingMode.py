@@ -14,6 +14,7 @@ class AbsoluteHearingMode(Game):
     arr (array): Get value in games's implementation.
     current_note (array): Get value in games's implementation.
     detected_note (array): The current note the user chose.
+    failure_count (int): The number of mistakes the player can make up to game overץ
 
     Methods:
 
@@ -35,6 +36,7 @@ class AbsoluteHearingMode(Game):
                 self.arr.append(i)
 
         self.noteamount = len(self.arr)
+        self.failure_count = 10
 
     def generate_random_note(self):
         """
@@ -66,6 +68,8 @@ class AbsoluteHearingMode(Game):
         """
         if self.detected_note.upper() in self.current_note["name"]:
             return True
+        # User lost guessing attempt
+        self.failure_count -= 1
         return False
 
     def sound_note(self, sound=''):

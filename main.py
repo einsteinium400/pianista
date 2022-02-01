@@ -168,6 +168,10 @@ class AbsoluteHearing(Screen):
             instance.disabled = True
             # play wrong answer
             self.ah.sound_note('mp3/wrong.wav')
+            self.ids[str(50)].text = "Attempts:" + str(self.ah.failure_count) + "/10"
+            if self.ah.failure_count == 0:
+                self.manager.current = 'GameOver'
+                self.end_game()
 
     def play_generate_note(self):
         """
@@ -205,6 +209,7 @@ class AbsoluteHearing(Screen):
         On_click the 'Start' button- the game will start and all the buttons will become available.
 
         """
+        self.ids[str(50)].text = "Attempts:" + str(self.ah.failure_count) + "/10"
         self.ah.generate_random_note()
         self.play_generate_note()
         # Make the buttons available
@@ -219,14 +224,25 @@ class AbsoluteHearing(Screen):
 
         """
 
-        # print(self.ids[str(num1)].disabled)
-        #     if disabled==True change to False
         if self.ids[str(num1)].disabled:
             self.ids[str(num1)].disabled = False
-        # if disabled==False change to True
         else:
             self.ids[str(num1)].disabled = True
         return
+
+    def end_game(self):
+        """
+
+        Init the game after exit from it.
+
+        """
+        for i in range(1, 10):
+            self.ids[str(i)].disabled = True
+        self.ids[str(10)].disabled = False
+        self.ids[str(50)].text = "Attempts:" + str(self.ah.failure_count) + "/10"
+        if self.ah.failure_count != 0:
+            self.manager.current = 'main'
+        self.ah.failure_count = 10
 
 
 class NoteReading(Screen):
@@ -325,6 +341,10 @@ class NoteReading(Screen):
             print("shit")
             self.canvas.after.remove(i)
         self.notes = []
+
+
+class GameOver(Screen):
+    pass
 
 
 # the Base Class of our Kivy App

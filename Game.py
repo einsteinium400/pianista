@@ -44,6 +44,7 @@ class Game:
         self.current_note = 0
         self.detected_note = 0
 
+
     def generate_random_note(self):
         """
         Returns:

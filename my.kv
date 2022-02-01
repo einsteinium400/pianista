@@ -8,6 +8,7 @@ WindowManager:
     AbsoluteHearing:
     NoteReading:
     GameOver:
+
 <Button>
     background_down:"lightsteelblue"
     font_name:'Amadeus'
@@ -84,12 +85,10 @@ WindowManager:
         on_release:
             app.root.current = "NoteReading"
 
-
     Go_Back_Button:
         on_release:
             app.root.transition.direction = "right"
             app.root.current = "main"
-
 
 <FloatLayout>
         #title
@@ -116,18 +115,20 @@ WindowManager:
         Button:
             pos_hint:{"x":0.15,"y":0.3}
             text:"Beginner"
+            #if this button is pressed change experty level to beginner
+            on_press: root.change_experty(0)
             on_release:
                 root.manager.transition.direction = "left"
                 app.root.current = "Beginner"
 
-
         Button:
             pos_hint:{"x":0.40,"y":0.3}
             text:"Intermediate"
+            #if this button is pressed change experty level to intermediate
+            on_press: root.change_experty(1)
             on_release:
                 app.root.current="Intermediate"
                 root.manager.transition.direction = "left"
-
 
         Button:
             pos_hint:{"x":0.65,"y":0.3}
@@ -141,20 +142,16 @@ WindowManager:
     FloatLayout:
     ScatterLayout:
 
-
-
 <IntermediateWindow>:
     name:"Intermediate"
     FloatLayout:
     ScatterLayout:
-
 
 <ExpertWindow>:
     name:"Expert"
     FloatLayout:
 
         Choose_Mode:
-
         Button:
             pos_hint:{"x":0.25,"y":0.3}
             text:"Absolute\nhearing"
@@ -166,7 +163,6 @@ WindowManager:
             pos_hint:{"x":0.51,"y":0.3}
             text:"Composer\nmode"
             disabled: True
-
 
         Go_Back_Button:
             on_release:
@@ -271,12 +267,10 @@ WindowManager:
             pos_hint:{"x":0.81,"y":0.4}
             on_press:
                 root.note_clicked(self)
-# TODO: how to make a countdown timer on click????!
 
     Go_Back_Button:
         on_release:
             root.end_game()
-
 
 <PBMode>:
     CountDown:
@@ -297,7 +291,6 @@ WindowManager:
         Rectangle:
             pos: 0, root.top
             size: root.width, 200
-
 
         # Treble clef lines
         Rectangle:
@@ -362,17 +355,12 @@ WindowManager:
             size: (self.barwidth, self.barheight)
     Image:
         source: "images/treble.png"
-        #size: (0.1,0.5)
-        #allow_stretch: True
         keep_ratio: False
         pos: -370, root.top - 570
 
     Image:
         source: "images/bass.png"
-        #size_hint_x: 0.1
         allow_stretch: False
-       # size: self.texture_size
-        #allow_stretch: True
         keep_ratio: False
         pos: -370, root.top - 700
 
@@ -392,9 +380,7 @@ WindowManager:
         font_name:'Times'
         on_press:  Factory.Note_reading_popup().open()
 
-
     Go_Back_Button:
         on_release:
             root.manager.transition.direction = "right"
             app.root.current = "main"
-

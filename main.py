@@ -4,11 +4,10 @@ import json
 import os
 import random
 from kivy.animation import Animation
-import simpleaudio as sa
 # for note compare
 import time
 import wave
-
+import simpleaudio as sa
 from kivy.clock import Clock
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.progressbar import ProgressBar
@@ -45,12 +44,10 @@ class OpenWindow(Screen):
 
 
 class MainWindow(Screen, FloatLayout):
+
     """
-
     A class used to link between the GUi and the games.
-
     Attributes:
-
     experty (int): The experty the user chose.
     """
 
@@ -58,8 +55,12 @@ class MainWindow(Screen, FloatLayout):
         self.experty = 0
         super().__init__(**kwargs)
 
+    def change_experty(self, num):
+        print(num)
+        self.experty=num
 
 class BeginnerWindow(Screen):
+
     """
     A class used to create Beginner Window.
     """
@@ -85,26 +86,6 @@ class WindowManager(ScreenManager):
     A class used to create Window Manager.
     """
     pass
-
-
-class CountDown(ProgressBar):
-    """
-    ???
-    """
-
-    # TODO : do documentation
-    def count(self):
-        self.ids.pb.value = 60
-        seconds = 60
-
-        def count_it(seconds):
-            if seconds == 0:
-                return
-            seconds -= 1
-            self.ids.pb.value = seconds
-            Clock.schedule_once(lambda dt: count_it(seconds), 1)
-
-        Clock.schedule_once(lambda dt: count_it(60), 1)
 
 
 class AbsoluteHearing(Screen):
@@ -205,9 +186,7 @@ class AbsoluteHearing(Screen):
 
     def start(self):
         """
-
         On_click the 'Start' button- the game will start and all the buttons will become available.
-
         """
         self.ids[str(50)].text = "Attempts:" + str(self.ah.failure_count) + "/10"
         self.ah.generate_random_note()
@@ -219,9 +198,7 @@ class AbsoluteHearing(Screen):
     # num1 and num2 is the range of id's bottoms we want to change their disabled
     def init_button(self, num1):
         """
-
         Turning buttons unavailable to available and oppositely.
-
         """
 
         if self.ids[str(num1)].disabled:
@@ -279,7 +256,6 @@ class NoteReading(Screen):
 
             # display the note generates
             self.display_note(self.notespractice.current_note, "black")
-            # time.sleep(5)
 
             # record user
             user_success = False
@@ -291,18 +267,18 @@ class NoteReading(Screen):
                 # detect the note the user pressed
                 self.notespractice.detect_note(audio_file)
                 user_success = self.notespractice.note_compare()
+
                 if user_success:
                     self.display_note(self.notespractice.detected_note, "green")
                     sleep(4)
                     continue
 
                 else:
-                    self.display_note(self.notespractice.detected_note, "red")
+                    if self.notespractice.detected_note["pos_x"]!="null":
+                        self.display_note(self.notespractice.detected_note, "red")
 
             self.remove_notes()
-            # sleep(3)
-            print("new session begins in 6 seconds")
-            # time.sleep(5)
+            # print("new session begins in 6 seconds")
 
     @mainthread
     def display_note(self, note, color):
@@ -355,14 +331,7 @@ class MyApp(App):
     def build(self):
         # Create the screen manager
         sm = ScreenManager()
-        # sm.add_widget(MenuScreen(name='menu'))
-        # sm.add_widget(SettingsScreen(name='settings'))
-
         sm.switch_to(Screen(name='MainWindow'), direction='right')
-        # return sm
-        # self.icon = 'images/pianista.png'
-        # self.title = 'Pianista'
-
 
 if __name__ == '__main__':
     app = MyApp()

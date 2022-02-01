@@ -3,112 +3,112 @@
         "name": "C1",
         "fq": 32.7,
         "octave":"null",
-        "pos_x": "24",
-        "pos_y": "50",
+        "pos_x": "null",
+        "pos_y": "null",
         "audio_file": null
     },
     {
         "name": "C#1",
         "fq": 34.65,
         "octave":"null",
-        "pos_x": "24",
-        "pos_y": "50",
+        "pos_x": "null",
+        "pos_y": "null",
         "audio_file": null
     },
     {
         "name": "D1",
         "fq": 36.71,
         "octave":"null",
-        "pos_x": "24",
-        "pos_y": "50",
+        "pos_x": "null",
+        "pos_y": "null",
         "audio_file": null
     },
     {
         "name": "D#1",
         "fq": 38.89,
         "octave":"null",
-        "pos_x": "24",
-        "pos_y": "50",
+        "pos_x": "null",
+        "pos_y": "null",
         "audio_file": null
     },
     {
         "name": "E1",
         "fq": 41.2,
         "octave":"null",
-        "pos_x": "24",
-        "pos_y": "50",
+        "pos_x": "null",
+        "pos_y": "null",
         "audio_file": "wav_files/e1.wav"
     },
     {
         "name": "F1",
         "fq": 43.65,
         "octave":"null",
-        "pos_x": "24",
-        "pos_y": "50",
+        "pos_x": "null",
+        "pos_y": "null",
         "audio_file": "wav_files/f1.wav"
     },
     {
         "name": "F#1",
         "fq": 46.25,
         "octave":"null",
-        "pos_x": "24",
-        "pos_y": "50",
+        "pos_x": "null",
+        "pos_y": "null",
         "audio_file": null
     },
     {
         "name": "G1",
         "fq": 49.0,
         "octave":"null",
-        "pos_x": "24",
-        "pos_y": "50",
+        "pos_x": "null",
+        "pos_y": "null",
         "audio_file": "wav_files/g1.wav"
     },
     {
         "name": "G#1",
         "fq": 51.91,
         "octave":"null",
-        "pos_x": "24",
-        "pos_y": "50",
+          "pos_x": "null",
+        "pos_y": "null",
         "audio_file": null
     },
     {
         "name": "A1",
         "fq": 55.0,
         "octave":"null",
-        "pos_x": "24",
-        "pos_y": "50",
+        "pos_x": "null",
+        "pos_y": "null",
         "audio_file": "wav_files/a1.wav"
     },
     {
         "name": "A#1",
         "fq": 58.27,
         "octave":"null",
-        "pos_x": "24",
-        "pos_y": "50",
+        "pos_x": "null",
+        "pos_y": "null",
         "audio_file": null
     },
     {
         "name": "B1",
         "fq": 61.74,
         "octave":"null",
-        "pos_x": "24",
-        "pos_y": "50",
+        "pos_x": "null",
+        "pos_y": "null",
         "audio_file": "wav_files/b1.wav"
     },
     {
         "name": "C2",
         "fq": 65.41,
         "octave":"great",
-        "pos_x": "24",
-        "pos_y": "50",
+        "pos_x": "null",
+        "pos_y": "null",
         "audio_file": "wav_files/c2.wav"
     },
     {
         "name": "C#2",
         "fq": 69.3,
         "octave":"great",
-        "pos_x": "24",
-        "pos_y": "50",
+        "pos_x": "null",
+        "pos_y": "null",
         "audio_file": null
     },
     {
@@ -475,8 +475,8 @@
         "name": "B5",
         "fq": 987.77,
         "octave": "two-line",
-        "pos_x": "726",
-        "pos_y": "378",
+        "pos_x": "null",
+        "pos_y": "null",
         "audio_file": "wav_files/b5.wav"
     }
 ]

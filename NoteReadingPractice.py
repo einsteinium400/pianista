@@ -179,20 +179,3 @@ class NoteReadingPractice(Game):
             return True
         else:
             return False
-
-# while (1):
-#     p=NoteReadingPractice(1)
-#     p.generate_random_note()
-#     p.display_note()
-#     time.sleep(10)
-#     p.record_note()
-#    # time.sleep(4)
-#
-#     path = os.getcwd()
-#     file_name = path + "\\wav files\\current.wav"
-#     audio_file = wave.open(file_name)
-#
-#     p.detect_note(audio_file)
-#     p.feedback()
-#     print("new session begins in 6 seconds")
-#     time.sleep(5)

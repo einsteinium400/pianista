@@ -33,20 +33,10 @@ class NoteReadingPractice(Game):
            Compare between the current note and the detected note and return True or False.
        """
     def __init__(self, experty):
-
-        # self.experty = experty
-        # f = open('myfile.json',"r")
-        #
-        # # this array contains all notes
-        # self.data = json.loads(f.read())
-
-        # #this array contains only the notes that are relevant for the experty level
-        # self.arr=[]
-
-        # to call game's class initialization
-        # super(NoteReadingPractice, self).__init__(self)
+        super().__init__()
+        print(experty)
+        self.experty = experty
         Game.__init__(self)
-        # self.detected_note=0 #will hold the current note that has been generated
 
         # beginner mode
         if experty == 0:
@@ -61,12 +51,6 @@ class NoteReadingPractice(Game):
 
         self.noteamount = len(self.arr)
 
-    # this method generates a random note and places it in current_note
-    # def generate_random_note(self):
-    #     randnum=random.randint(0, self.noteamount-1)
-    #     self.current_note=self.arr[randnum]
-    #     print (self.arr[randnum])
-    #     return self.arr[randnum]
 
     def display_note(self):
         print(self.current_note)
@@ -81,15 +65,10 @@ class NoteReadingPractice(Game):
 
         """
         fs = 44100
-        duration = 5  # seconds
+        duration = 3  # 5 seconds
         myrecording = sd.rec(duration * fs, samplerate=fs, channels=1, dtype='int16')
-        # print("Recording Audio")
         sd.wait()
-        # print("Audio recording complete , Play Audio")
-        # sd.play(myrecording, fs)
-        # sd.wait()
         write("wav files/current.wav", fs, myrecording)
-        # print("Play Audio Complete")
 
     def detect_note(self, audio_file):
         # TODO : do documentation

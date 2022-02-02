@@ -43,21 +43,22 @@ class OpenWindow(Screen):
         self.manager.current = 'main'
 
 
-class MainWindow(Screen, FloatLayout):
 
+class MainWindow(Screen, FloatLayout):
+    experty = 0
     """
     A class used to link between the GUi and the games.
     Attributes:
     experty (int): The experty the user chose.
     """
-
     def __init__(self, **kwargs):
-        self.experty = 0
+        MainWindow.experty = 0
         super().__init__(**kwargs)
 
     def change_experty(self, num):
-        print(num)
-        self.experty=num
+        MainWindow.experty=num
+        print(MainWindow.experty)
+
 
 class BeginnerWindow(Screen):
 
@@ -90,15 +91,10 @@ class WindowManager(ScreenManager):
 
 class AbsoluteHearing(Screen):
     """
-
     A class used to link between the GUi and the AbsoluteHearing game.
-
     Attributes:
-
     ah (AbsoluteHearing object): Instance's game.
-
    Methods:
-
    note_clicked(self, instance)
         Gets the note the user selected from the GUI, compare and return feedback.
    generate_random_note(self)
@@ -109,7 +105,6 @@ class AbsoluteHearing(Screen):
         On_click the 'Start' button- the game will start and all the buttons will become available.
    init_button(self, num1)
         Turning buttons unavailable to available and oppositely.
-
     """
 
     def __init__(self, **kw):
@@ -119,14 +114,12 @@ class AbsoluteHearing(Screen):
 
     def note_clicked(self, instance):
         """
-
         Gets the note the user selected from the GUI.
         compare between the notes and return feedback.
         If the user is right- Sound of success will be heard and the game will continue.
         Else- Sound will be played accordingly and the note button will turn off.
 
         Attributes:
-
         result (int): The result of note_compare().
         """
 
@@ -209,9 +202,7 @@ class AbsoluteHearing(Screen):
 
     def end_game(self):
         """
-
         Init the game after exit from it.
-
         """
         for i in range(1, 10):
             self.ids[str(i)].disabled = True
@@ -238,20 +229,36 @@ class NoteReading(Screen):
         self.bottomline_bass = self.topline_bass + self.barspace * 4
 
         self.notes = []
-
+        self.thread_kill=1
         # this item holds object of class notereadingpractice
-        self.notespractice = NoteReadingPractice(0)
         super().__init__(**kwargs)
+        self.t=threading.Thread(target=self.notedisplaylogic,daemon=True)
+        self.t.start()
 
-        threading.Thread(target=self.notedisplaylogic).start()
+        # t.start() #############
+    def start_game_thread(self):
+        # self.notespractice = NoteReadingPractice(MainWindow.experty)
+        print("start")
+        self.thread_kill=0
 
-        # event to make sure thread waits for click of "record"
-
-    #   self.event_obj = threading.Event()
+    def join_game_thread(self):
+        self.thread_kill=1
+        self.remove_notes()
+        del self.notespractice
 
     def notedisplaylogic(self):
-        while True:
 
+        while True:
+            if (self.thread_kill==1):
+                #we dont want to kill the thread, just hold it
+                while True:
+                    #thread is sleeping
+                    if (self.thread_kill == 0):
+                        #revive thread with desired experty level
+                        self.notespractice = NoteReadingPractice(MainWindow.experty)
+                        break
+
+            # print("fuck everything")
             self.notespractice.generate_random_note()
 
             # display the note generates
@@ -259,26 +266,38 @@ class NoteReading(Screen):
 
             # record user
             user_success = False
-            while not user_success:
-                self.notespractice.record_note()
-                path = os.getcwd()
-                file_name = path + "\\wav files\\current.wav"
-                audio_file = wave.open(file_name)
-                # detect the note the user pressed
-                self.notespractice.detect_note(audio_file)
-                user_success = self.notespractice.note_compare()
+            while not user_success :
+                if self.thread_kill==1:
+                    break
+                try:
+                    self.notespractice.record_note()
+                except:
+                    pass
 
-                if user_success:
-                    self.display_note(self.notespractice.detected_note, "green")
-                    sleep(4)
-                    continue
+                try:
+                    path = os.getcwd()
+                    file_name = path + "\\wav files\\current.wav"
+                    audio_file = wave.open(file_name)
+                    # detect the note the user pressed
+                    self.notespractice.detect_note(audio_file)
+                    user_success = self.notespractice.note_compare()
 
-                else:
-                    if self.notespractice.detected_note["pos_x"]!="null":
-                        self.display_note(self.notespractice.detected_note, "red")
+                    if user_success:
+                        self.display_note(self.notespractice.detected_note, "green")
+                        sleep(4)
+                        continue
+
+                    else:
+                        print(self.notespractice.detected_note)
+                        print(self.notespractice.detected_note)
+                        if self.notespractice.detected_note["pos_x"].isnumeric():
+                            self.display_note(self.notespractice.detected_note, "red")
+
+                except:
+                    pass
+
 
             self.remove_notes()
-            # print("new session begins in 6 seconds")
 
     @mainthread
     def display_note(self, note, color):
@@ -314,7 +333,6 @@ class NoteReading(Screen):
     @mainthread
     def remove_notes(self):
         for i in self.notes:
-            print("shit")
             self.canvas.after.remove(i)
         self.notes = []
 
@@ -331,7 +349,8 @@ class MyApp(App):
     def build(self):
         # Create the screen manager
         sm = ScreenManager()
-        sm.switch_to(Screen(name='MainWindow'), direction='right')
+        screen=Screen(name='MainWindow')
+        sm.switch_to(screen, direction='right')
 
 if __name__ == '__main__':
     app = MyApp()

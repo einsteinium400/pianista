@@ -380,7 +380,31 @@ WindowManager:
         font_name:'Times'
         on_press:  Factory.Note_reading_popup().open()
 
-    Go_Back_Button:
+    Button:
+        font_size: 28
+        id: 10
+        pos_hint:{"x":0.03,"y":0.8}
+        text: 'Start'
+        disabled: False
+        on_press:
+            root.start_game_thread()
+            disabled: True
+
+    Button:
+        font_size: 28
+        id: 10
+        size_hint:0.15,0.15
+        text:"Go Back"
+        disabled: False
+        on_press:
+            app.root.current = "main"
+            root.join_game_thread()
         on_release:
             root.manager.transition.direction = "right"
-            app.root.current = "main"
+
+#    Go_Back_Button:
+#        on_press:
+#            root.join_game_thread()
+#        on_release:
+#            root.manager.transition.direction = "right"
+#            app.root.current = "main"

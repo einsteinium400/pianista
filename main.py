@@ -1,4 +1,3 @@
-import wave
 import json
 # for generate random note
 import os
@@ -135,14 +134,14 @@ class AbsoluteHearing(Screen):
                     self.init_button(i)
             # play correct answer
             self.ah.sound_note('mp3/correct.wav')
-            time.sleep(1)
+            # time.sleep(1)
             self.ah.generate_random_note()
             self.ah.sound_note()
         else:
             instance.disabled = True
+            self.ids[str(50)].text = "Attempts:" + str(self.ah.failure_count) + "/10"
             # play wrong answer
             self.ah.sound_note('mp3/wrong.wav')
-            self.ids[str(50)].text = "Attempts:" + str(self.ah.failure_count) + "/10"
             if self.ah.failure_count == 0:
                 self.manager.current = 'GameOver'
                 self.end_game()

@@ -5,7 +5,7 @@
         "octave":"null",
         "pos_x": "null",
         "pos_y": "null",
-        "audio_file": null
+        "audio_file": "wav_files/c1.wav"
     },
     {
         "name": "C#1",
@@ -21,7 +21,7 @@
         "octave":"null",
         "pos_x": "null",
         "pos_y": "null",
-        "audio_file": null
+        "audio_file": "wav_files/d1.wav"
     },
     {
         "name": "D#1",
@@ -309,7 +309,7 @@
         "octave": "one-line",
         "pos_x": "414",
         "pos_y": "258",
-        "audio_file": null
+        "audio_file": "wav_files/d4.wav"
     },
     {
         "name": "D#4",

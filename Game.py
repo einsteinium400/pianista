@@ -18,23 +18,45 @@ import Game
 
 
 class Game:
+    """
+   A class containing the common attributes and methods of the games for inheritance.
+
+   Attributes:
+
+   data (array): Contains all notes.
+   arr (array): Contains only the notes that are relevant for the
+   experty level or the current modety level or the current mode.
+   current_note (array): The current note the system generated.
+   detected_note (array): The current note the user chose.
+
+   Methods:
+
+   generate_random_note(self)
+       Return generate random note from array of notes
+   note_compare(self)
+       Compare between the notes and return True or False.
+    """
+
     def __init__(self):
         f = open('myfile.json', "r")
-
-        # this array contains all notes
         self.data = json.loads(f.read())
-
-        # this array contains only the notes that are relevant for the experty level or the current mode
         self.arr = []
-
-        # the current note the system generated
         self.current_note = 0
-        # the current note the user chose
         self.detected_note = 0
 
 
     def generate_random_note(self):
+        """
+        Returns:
+            Return generate random note from array of notes.
+        """
         pass
 
     def note_compare(self):
+        """
+              Compare between the notes.
+
+              Returns:
+                  Return: Bool True or False.
+              """
         pass

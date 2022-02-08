@@ -1,10 +1,14 @@
+#:import Factory kivy.factory.Factory
 WindowManager:
+    OpenWindow:
     MainWindow:
     BeginnerWindow:
     IntermediateWindow:
     ExpertWindow:
     AbsoluteHearing:
     NoteReading:
+    GameOver:
+
 <Button>
     background_down:"lightsteelblue"
     font_name:'Amadeus'
@@ -24,11 +28,53 @@ WindowManager:
 <Go_Back_Button@Button>:
     size_hint:0.15,0.15
     text:"Go Back"
+<Information@Button>:
+
+    size_hint:0.10,0.12
+    pos_hint:{"right":0.98,"y":0.81}
+    font_size: 40
+    text:"i"
+    background_color: (0,0,0,0)
+	background_normal: ''
+    canvas.before:
+        Color:
+            rgba: (212/255, 186/255, 154/255,1)
+        RoundedRectangle:
+            size: self.size
+            pos: self.pos
+            radius: [58]
+<Popup>:
+    separator_color:'white'
+    #background_color: (0,0,0,0)
+    title_size:20
+    title: "Instructions"
+    size_hint: .5, .5
+    auto_dismiss: True
+
+<Absolute_popup@Popup>:
+    Label:
+        color:'white'
+        size_hint: 0.6,0.2
+        pos_hint: {"x":0.2,"y":0.5}
+        font_name:'Arial'
+        font_size:22
+        text: "To start developing your sense \nof absolute hearing:\nThe system will generate a single note.\nPick the note you think you heard.\n\nEnjoy!"
+
+<Note_reading_popup@Popup>:
+    Label:
+        color:'white'
+        size_hint: 0.6,0.2
+        pos_hint: {"x":0.2,"y":0.45}
+        font_name:'Arial'
+        font_size:17.5
+        text: "In order to improve note reading: \nThe system will randomly generate a single note \nand show it to you on the screen. \nClick on the same note on the piano. \nIf the answer is correct the note turns green. \nIf you made a mistake the note you clicked \nturns red and you can try again.\n\nEnjoy!"
+
 <ScatterLayout>
     Choose_Mode:
     Button:
         pos_hint:{"x":0.25,"y":0.3}
         text:"Rhythm\npractice"
+        disabled: True
         on_release:
             app.root.transition.direction = "left"
             app.root.current = "Rhythm practice"
@@ -39,12 +85,10 @@ WindowManager:
         on_release:
             app.root.current = "NoteReading"
 
-
     Go_Back_Button:
         on_release:
             app.root.transition.direction = "right"
             app.root.current = "main"
-
 
 <FloatLayout>
         #title
@@ -57,31 +101,34 @@ WindowManager:
 <Label>
     color: (0.2, 0, 0,1)
     font_name:'Amadeus'
+<OpenWindow>:
+    name:"open"
+
 <MainWindow>:
     name:"main"
     FloatLayout:
         Label:
             font_size: 50
             pos_hint:{"x":0,"y":0.22}
-            text:"welcome to pianista ! \n please choose level"
+            text:"Welcome to Pianista ! \n Please choose level"
 
         Button:
             pos_hint:{"x":0.15,"y":0.3}
             text:"Beginner"
+            #if this button is pressed change experty level to beginner
+            on_press: root.change_experty(0)
             on_release:
                 root.manager.transition.direction = "left"
                 app.root.current = "Beginner"
-                #on_release=root.experty=0
-
 
         Button:
             pos_hint:{"x":0.40,"y":0.3}
             text:"Intermediate"
+            #if this button is pressed change experty level to intermediate
+            on_press: root.change_experty(1)
             on_release:
                 app.root.current="Intermediate"
                 root.manager.transition.direction = "left"
-              #  on_release=root.experty=1
-
 
         Button:
             pos_hint:{"x":0.65,"y":0.3}
@@ -92,53 +139,61 @@ WindowManager:
 
 <BeginnerWindow>:
     name: "Beginner"
+    FloatLayout:
     ScatterLayout:
-
-
 
 <IntermediateWindow>:
     name:"Intermediate"
+    FloatLayout:
     ScatterLayout:
-
 
 <ExpertWindow>:
     name:"Expert"
     FloatLayout:
 
         Choose_Mode:
-
         Button:
             pos_hint:{"x":0.25,"y":0.3}
             text:"Absolute\nhearing"
             on_release:
                 root.manager.transition.direction = "left"
                 app.root.current = "AbsoluteHearing"
-                self.background_color = (212/255, 186/255, 154/255,0.7)
 
         Button:
             pos_hint:{"x":0.51,"y":0.3}
             text:"Composer\nmode"
             disabled: True
 
-
         Go_Back_Button:
             on_release:
                 root.manager.transition.direction = "right"
                 app.root.current = "main"
+<GameOver>:
+    name: 'GameOver'
+    Label:
+        text : "Game Over"
+        font_size : 100
+    Go_Back_Button:
+        on_release:
+            root.manager.transition.direction = "right"
+            app.root.current = "main"
 
-<AbsoluteHearing>
+<AbsoluteHearing>:
     name:"AbsoluteHearing"
     FloatLayout:
 
         Label:
             font_size: 50
             pos_hint:{"x":0,"y":0.22}
-            text:"Click the note you think was played:"
+            text:"Which note was being played?"
+        Information:
+            font_name:'Times'
+            on_press:  Factory.Absolute_popup().open()
 
         Absolute_button:
             font_size: 28
             id: 10
-            pos_hint:{"x":0,"y":0.8}
+            pos_hint:{"x":0.03,"y":0.8}
             text: 'Start'
             disabled: False
             on_press:
@@ -146,7 +201,7 @@ WindowManager:
 
         Absolute_button:
             font_size: 28
-            pos_hint:{"x":0.12,"y":0.8}
+            pos_hint:{"x":0.15,"y":0.8}
             text: 'Hear\nAgain'
             id: 8
             on_press:
@@ -157,9 +212,13 @@ WindowManager:
             icon: 'images/lamp.png'
             text: 'Answer'
             id: 9
-            pos_hint:{"x":0.24,"y":0.8}
+            pos_hint:{"x":0.27,"y":0.8}
             on_press:
                 root.get_answer()
+        Label:
+            id : 50
+            pos_hint:{"x":0.15,"y":0.37}
+            font_size: 30
 
         Absolute_button:
             pos_hint:{"x":0.06,"y":0.4}
@@ -208,12 +267,11 @@ WindowManager:
             pos_hint:{"x":0.81,"y":0.4}
             on_press:
                 root.note_clicked(self)
-# TODO: how to make a countdown timer on click????!
 
     Go_Back_Button:
         on_release:
-            root.manager.transition.direction = "right"
-            app.root.current = "main"
+            root.end_game()
+
 <PBMode>:
     CountDown:
         id: pb
@@ -233,7 +291,6 @@ WindowManager:
         Rectangle:
             pos: 0, root.top
             size: root.width, 200
-
 
         # Treble clef lines
         Rectangle:
@@ -297,20 +354,15 @@ WindowManager:
             pos: (root.width/2 - (self.barwidth / 2)+5,  root.top - self.bottomline_treble - self.barspace * 2)
             size: (self.barwidth, self.barheight)
     Image:
-        source: "images/treble.png"
-        #size: (0.1,0.5)
-        #allow_stretch: True
+        source: "images/clef.png"
         keep_ratio: False
-        pos: -370, root.top - 570
+        pos: -370, root.top - 585
 
     Image:
         source: "images/bass.png"
-        #size_hint_x: 0.1
         allow_stretch: False
-       # size: self.texture_size
-        #allow_stretch: True
         keep_ratio: False
-        pos: -370, root.top - 700
+        pos: -365, root.top - 692
 
     Label:
         font_size: 50
@@ -323,17 +375,35 @@ WindowManager:
         font_size: 40
         color: (0.8, 0.8, 0.8)
         pos: (root.width / 2 - 50, root.top - 100)
-    Button:
-        pos: root.top-600, root.top -110
-        font_size: 40
-        size_hint:0.1,0.1
-        size: 100, 60
-        text:"i"
+
+    Information:
         font_name:'Times'
+        on_press:  Factory.Note_reading_popup().open()
 
+    Absolute_button:
+        font_size: 28
+        pos_hint:{"x":0.025,"y":0.8}
+        text: 'Start'
+        disabled: False
+        on_press:
+            root.start_game_thread()
+            disabled: True
 
-    Go_Back_Button:
+    Button:
+        font_size: 28
+        id: 10
+        size_hint:0.15,0.15
+        text:"Go Back"
+        disabled: False
+        on_press:
+            app.root.current = "main"
+            root.join_game_thread()
         on_release:
             root.manager.transition.direction = "right"
-            app.root.current = "main"
 
+#    Go_Back_Button:
+#        on_press:
+#            root.join_game_thread()
+#        on_release:
+#            root.manager.transition.direction = "right"
+#            app.root.current = "main"

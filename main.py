@@ -1,89 +1,107 @@
-import wave
 import json
 # for generate random note
 import os
 import random
-from kivy.clock import Clock
-# import required module
 from kivy.animation import Animation
-import simpleaudio as sa
-
 # for note compare
+from kivy.config import Config
+Config.set('input', 'mouse', 'mouse,multitouch_on_demand')
 import time
-import math
 import wave
-import struct
-import numpy as np
-
-# for note record
-import sounddevice as sd
-import scipy.io.wavfile as wav
-from scipy.io.wavfile import write
-import kivy
+import simpleaudio as sa
 from kivy.clock import Clock
-from kivy.lang import Builder
-from kivy.uix.screenmanager import ScreenManager, Screen
-from kivy.uix.widget import Widget
 from kivy.uix.floatlayout import FloatLayout
-from kivy.uix.progressbar import ProgressBar
-from kivy.app import App
-from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen, FadeTransition
 from kivy.graphics import *
 from kivy.app import App
-from kivy.lang import Builder
 from time import sleep
-
-from kivy.uix.boxlayout import BoxLayout
-from kivy.properties import StringProperty
 from kivy.clock import mainthread
-
+from kivy.uix.image import Image, AsyncImage
 import threading
-import time
-
 from AbsoluteHearingMode import AbsoluteHearingMode
 from NoteReadingPractice import NoteReadingPractice
 
 
-class MainWindow(Screen, FloatLayout):
+class OpenWindow(Screen):
+
     def __init__(self, **kwargs):
-        self.experty = 0
+        super(OpenWindow, self).__init__(**kwargs)
+
+        # animation of logo
+        self.logo = Image(source='images/pianista.png', opacity=0)
+        animated_icon = Animation(opacity=0.25)+Animation(opacity=0.5) +Animation(opacity=0.75)+ Animation(opacity=1)
+        self.add_widget(self.logo)
+        animated_icon.start(self.logo)
+        # go to next page after 10 seconds
+        Clock.schedule_once(self.callNext,10)
+
+    def callNext(self, dt):
+        self.manager.current = 'main'
+
+
+
+class MainWindow(Screen, FloatLayout):
+    experty = 0
+    """
+    A class used to link between the GUi and the games.
+    Attributes:
+    experty (int): The experty the user chose.
+    """
+    def __init__(self, **kwargs):
+        MainWindow.experty = 0
         super().__init__(**kwargs)
+
+    def change_experty(self, num):
+        MainWindow.experty=num
+        print(MainWindow.experty)
 
 
 class BeginnerWindow(Screen):
+
+    """
+    A class used to create Beginner Window.
+    """
     pass
 
 
 class IntermediateWindow(Screen):
+    """
+    A class used to create Intermediate Window.
+    """
     pass
 
 
 class ExpertWindow(Screen):
+    """
+    A class used to create Expert Window.
+    """
     pass
 
 
 class WindowManager(ScreenManager):
+    """
+    A class used to create Window Manager.
+    """
     pass
 
 
-class CountDown(ProgressBar):
-
-    def count(self):
-        self.ids.pb.value = 60
-        seconds = 60
-
-        def count_it(seconds):
-            if seconds == 0:
-                return
-            seconds -= 1
-            self.ids.pb.value = seconds
-            Clock.schedule_once(lambda dt: count_it(seconds), 1)
-
-        Clock.schedule_once(lambda dt: count_it(60), 1)
-
-
 class AbsoluteHearing(Screen):
+    """
+    A class used to link between the GUi and the AbsoluteHearing game.
+    Attributes:
+    ah (AbsoluteHearing object): Instance's game.
+   Methods:
+   note_clicked(self, instance)
+        Gets the note the user selected from the GUI, compare and return feedback.
+   generate_random_note(self)
+       On_click the 'Hear Again' button- the generate note will be play again.
+   get_answer(self)
+        On_click the 'Answer' button- the answer will be displayed by animation.
+   start(self)
+        On_click the 'Start' button- the game will start and all the buttons will become available.
+   init_button(self, num1)
+        Turning buttons unavailable to available and oppositely.
+    """
 
     def __init__(self, **kw):
         self.ah = AbsoluteHearingMode()
@@ -91,6 +109,15 @@ class AbsoluteHearing(Screen):
         # this item holds object of class notereadingpractice
 
     def note_clicked(self, instance):
+        """
+        Gets the note the user selected from the GUI.
+        compare between the notes and return feedback.
+        If the user is right- Sound of success will be heard and the game will continue.
+        Else- Sound will be played accordingly and the note button will turn off.
+
+        Attributes:
+        result (int): The result of note_compare().
+        """
 
         self.ah.detected_note = instance.text
         # check the answer
@@ -101,22 +128,41 @@ class AbsoluteHearing(Screen):
             # reset the note bottoms's disables
             for i in range(1, 8):
                 if self.ids[str(i)].disabled:
-                    self.init_bottom(i)
+                    self.init_button(i)
             # play correct answer
-            self.ah.sound_note('mp3/correct.wav')
-            time.sleep(1)
+            self.ah.sound_note('wav_files/correct.wav')
+            # time.sleep(1)
             self.ah.generate_random_note()
             self.ah.sound_note()
         else:
             instance.disabled = True
+            self.ids[str(50)].text = "Attempts:" + str(self.ah.failure_count) + "/10"
             # play wrong answer
-            self.ah.sound_note('mp3/wrong.wav')
+            self.ah.sound_note('wav_files/wrong.wav')
+            if self.ah.failure_count == 0:
+                self.manager.current = 'GameOver'
+                self.end_game()
 
     def play_generate_note(self):
+        """
+
+        On_click the 'Hear Again' button- the generate note will be play again by AbsoluteHearingMode function.
+
+        """
         # play the generate note on_press
         self.ah.sound_note()
 
     def get_answer(self):
+        """
+
+        First we find the button of the answer and then the animation will be done.
+
+        Attributes:
+
+        id_b (str): Answer button's id.
+
+        anim (kivy.animation.Sequence): Animated action
+        """
         # Find the button's answer id
         for i in range(1, 8):
             if self.ah.current_note['name'][0].lower() in self.ids[str(i)].text:
@@ -124,26 +170,43 @@ class AbsoluteHearing(Screen):
         # animation on the right answer that color the note
         anim = Animation(background_color=[0, 0, 0, 0]) + Animation(
             background_color=[212 / 255, 186 / 255, 154 / 255, 1])
+        print(type(anim))
         anim.start(self.ids[id_b])
 
     def start(self):
+        """
+        On_click the 'Start' button- the game will start and all the buttons will become available.
+        """
+        self.ids[str(50)].text = "Attempts:" + str(self.ah.failure_count) + "/10"
         self.ah.generate_random_note()
         self.play_generate_note()
         # Make the buttons available
         for i in range(1, 11):
-            self.init_bottom(i)
+            self.init_button(i)
 
     # num1 and num2 is the range of id's bottoms we want to change their disabled
-    def init_bottom(self, num1):
-        # print(self.ids[str(num1)].disabled)
-        #     if disabled==True change to False
+    def init_button(self, num1):
+        """
+        Turning buttons unavailable to available and oppositely.
+        """
+
         if self.ids[str(num1)].disabled:
             self.ids[str(num1)].disabled = False
-        # if disabled==False change to True
         else:
             self.ids[str(num1)].disabled = True
-
         return
+
+    def end_game(self):
+        """
+        Init the game after exit from it.
+        """
+        for i in range(1, 10):
+            self.ids[str(i)].disabled = True
+        self.ids[str(10)].disabled = False
+        self.ids[str(50)].text = "Attempts:" + str(self.ah.failure_count) + "/10"
+        if self.ah.failure_count != 0:
+            self.manager.current = 'main'
+        self.ah.failure_count = 10
 
 
 class NoteReading(Screen):
@@ -162,48 +225,75 @@ class NoteReading(Screen):
         self.bottomline_bass = self.topline_bass + self.barspace * 4
 
         self.notes = []
-
+        self.thread_kill=1
         # this item holds object of class notereadingpractice
-        self.notespractice = NoteReadingPractice(0)
         super().__init__(**kwargs)
+        self.t=threading.Thread(target=self.notedisplaylogic,daemon=True)
+        self.t.start()
 
-        threading.Thread(target=self.notedisplaylogic).start()
+        # t.start() #############
+    def start_game_thread(self):
+        # self.notespractice = NoteReadingPractice(MainWindow.experty)
+        print("start")
+        self.thread_kill=0
 
-        # event to make sure thread waits for click of "record"
-
-    #   self.event_obj = threading.Event()
+    def join_game_thread(self):
+        self.thread_kill=1
+        self.remove_notes()
+        del self.notespractice
 
     def notedisplaylogic(self):
-        while True:
 
+        while True:
+            if (self.thread_kill==1):
+                #we dont want to kill the thread, just hold it
+                while True:
+                    #thread is sleeping
+                    if (self.thread_kill == 0):
+                        #revive thread with desired experty level
+                        self.notespractice = NoteReadingPractice(MainWindow.experty)
+                        break
+
+            # print("fuck everything")
             self.notespractice.generate_random_note()
 
             # display the note generates
             self.display_note(self.notespractice.current_note, "black")
-            # time.sleep(5)
 
             # record user
             user_success = False
-            while not user_success:
-                self.notespractice.record_note()
-                path = os.getcwd()
-                file_name = path + "\\wav files\\current.wav"
-                audio_file = wave.open(file_name)
-                # detect the note the user pressed
-                self.notespractice.detect_note(audio_file)
-                user_success = self.notespractice.note_compare()
-                if user_success:
-                    self.display_note(self.notespractice.detected_note, "green")
-                    sleep(4)
-                    continue
+            while not user_success :
+                if self.thread_kill==1:
+                    break
+                try:
+                    self.notespractice.record_note()
+                except:
+                    pass
 
-                else:
-                    self.display_note(self.notespractice.detected_note, "red")
+                try:
+                    path = os.getcwd()
+                    file_name = path + "\\wav files\\current.wav"
+                    audio_file = wave.open(file_name)
+                    # detect the note the user pressed
+                    self.notespractice.detect_note(audio_file)
+                    user_success = self.notespractice.note_compare()
+
+                    if user_success:
+                        self.display_note(self.notespractice.detected_note, "green")
+                        sleep(4)
+                        continue
+
+                    else:
+                        print(self.notespractice.detected_note)
+                        print(self.notespractice.detected_note)
+                        if self.notespractice.detected_note["pos_x"].isnumeric():
+                            self.display_note(self.notespractice.detected_note, "red")
+
+                except:
+                    pass
+
 
             self.remove_notes()
-            # sleep(3)
-            print("new session begins in 6 seconds")
-            # time.sleep(5)
 
     @mainthread
     def display_note(self, note, color):
@@ -239,9 +329,12 @@ class NoteReading(Screen):
     @mainthread
     def remove_notes(self):
         for i in self.notes:
-            print("shit")
             self.canvas.after.remove(i)
         self.notes = []
+
+
+class GameOver(Screen):
+    pass
 
 
 # the Base Class of our Kivy App
@@ -250,10 +343,10 @@ class MyApp(App):
     title = 'Pianista'
 
     def build(self):
-        # self.icon = 'images/pianista.png'
-        # self.title = 'Pianista'
-        pass
-
+        # Create the screen manager
+        sm = ScreenManager()
+        screen=Screen(name='MainWindow')
+        sm.switch_to(screen, direction='right')
 
 if __name__ == '__main__':
     app = MyApp()

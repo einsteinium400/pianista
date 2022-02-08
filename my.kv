@@ -354,7 +354,11 @@ WindowManager:
             pos: (root.width/2 - (self.barwidth / 2)+5,  root.top - self.bottomline_treble - self.barspace * 2)
             size: (self.barwidth, self.barheight)
     Image:
+<<<<<<< HEAD
         source: "images/clef.png"
+=======
+        source: "images/treble.png"
+>>>>>>> 2a3242f946e2f87988ca780fb70658e2dd193e02
         keep_ratio: False
         pos: -370, root.top - 585
 
@@ -375,6 +379,7 @@ WindowManager:
         font_size: 40
         color: (0.8, 0.8, 0.8)
         pos: (root.width / 2 - 50, root.top - 100)
+<<<<<<< HEAD
 
     Information:
         font_name:'Times'
@@ -383,6 +388,17 @@ WindowManager:
     Absolute_button:
         font_size: 28
         pos_hint:{"x":0.025,"y":0.8}
+=======
+
+    Information:
+        font_name:'Times'
+        on_press:  Factory.Note_reading_popup().open()
+
+    Button:
+        font_size: 28
+        id: 10
+        pos_hint:{"x":0.03,"y":0.8}
+>>>>>>> 2a3242f946e2f87988ca780fb70658e2dd193e02
         text: 'Start'
         disabled: False
         on_press:

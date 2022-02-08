@@ -67,11 +67,7 @@ class NoteReadingPractice(Game):
         fs = 44100
         duration = 3  # 5 seconds
         myrecording = sd.rec(duration * fs, samplerate=fs, channels=1, dtype='int16')
-<<<<<<< HEAD
-        sd.waitז()
-=======
         sd.wait()
->>>>>>> 2a3242f946e2f87988ca780fb70658e2dd193e02
         write("wav files/current.wav", fs, myrecording)
 
     def detect_note(self, audio_file):

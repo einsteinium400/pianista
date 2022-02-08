@@ -1,10 +1,6 @@
 from Game import Game
 import sounddevice as sd
 import soundfile as sf
-<<<<<<< HEAD
-=======
-
->>>>>>> 2a3242f946e2f87988ca780fb70658e2dd193e02
 import random
 
 class AbsoluteHearingMode(Game):
@@ -91,11 +87,7 @@ class AbsoluteHearingMode(Game):
             filename = self.current_note["audio_file"]
         data, fs = sf.read(filename, dtype='float32')
         sd.play(data, fs)
-<<<<<<< HEAD
         if filename == 'wav_files/correct.wav':
-=======
-        if filename == 'mp3/correct.wav':
->>>>>>> 2a3242f946e2f87988ca780fb70658e2dd193e02
             # Help to do little delay.
             sd.wait()  # Wait until sound has finished playing
 

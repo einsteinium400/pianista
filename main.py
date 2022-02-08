@@ -11,10 +11,6 @@ import wave
 import simpleaudio as sa
 from kivy.clock import Clock
 from kivy.uix.floatlayout import FloatLayout
-<<<<<<< HEAD
-=======
-from kivy.uix.progressbar import ProgressBar
->>>>>>> 2a3242f946e2f87988ca780fb70658e2dd193e02
 from kivy.uix.screenmanager import ScreenManager, Screen, FadeTransition
 from kivy.graphics import *
 from kivy.app import App
@@ -30,7 +26,6 @@ class OpenWindow(Screen):
 
     def __init__(self, **kwargs):
         super(OpenWindow, self).__init__(**kwargs)
-<<<<<<< HEAD
 
         # animation of logo
         self.logo = Image(source='images/pianista.png', opacity=0)
@@ -39,20 +34,6 @@ class OpenWindow(Screen):
         animated_icon.start(self.logo)
         # go to next page after 10 seconds
         Clock.schedule_once(self.callNext,10)
-=======
-        # sound open song
-        filename = 'wav_files/open_song.wav'
-        wave_obj = sa.WaveObject.from_wave_file(filename)
-        play_obj = wave_obj.play()
-        play_obj.is_playing()
-        # animation of logo
-        self.logo = Image(source='images/pianista.png', opacity=0)
-        animated_icon = Animation(opacity=0.5) + Animation(opacity=1)
-        self.add_widget(self.logo)
-        animated_icon.start(self.logo)
-        # go to next page after 4 seconds
-        Clock.schedule_once(self.callNext, 4)
->>>>>>> 2a3242f946e2f87988ca780fb70658e2dd193e02
 
     def callNext(self, dt):
         self.manager.current = 'main'
@@ -149,11 +130,7 @@ class AbsoluteHearing(Screen):
                 if self.ids[str(i)].disabled:
                     self.init_button(i)
             # play correct answer
-<<<<<<< HEAD
             self.ah.sound_note('wav_files/correct.wav')
-=======
-            self.ah.sound_note('mp3/correct.wav')
->>>>>>> 2a3242f946e2f87988ca780fb70658e2dd193e02
             # time.sleep(1)
             self.ah.generate_random_note()
             self.ah.sound_note()
@@ -161,11 +138,7 @@ class AbsoluteHearing(Screen):
             instance.disabled = True
             self.ids[str(50)].text = "Attempts:" + str(self.ah.failure_count) + "/10"
             # play wrong answer
-<<<<<<< HEAD
             self.ah.sound_note('wav_files/wrong.wav')
-=======
-            self.ah.sound_note('mp3/wrong.wav')
->>>>>>> 2a3242f946e2f87988ca780fb70658e2dd193e02
             if self.ah.failure_count == 0:
                 self.manager.current = 'GameOver'
                 self.end_game()

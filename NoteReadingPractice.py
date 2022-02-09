@@ -34,7 +34,6 @@ class NoteReadingPractice(Game):
        """
     def __init__(self, experty):
         super().__init__()
-        print(experty)
         self.experty = experty
         Game.__init__(self)
 
@@ -52,9 +51,6 @@ class NoteReadingPractice(Game):
         self.noteamount = len(self.arr)
 
 
-    def display_note(self):
-        print(self.current_note)
-
     def record_note(self):
         """
         Record the user's playing every 5 seconds.
@@ -71,7 +67,15 @@ class NoteReadingPractice(Game):
         write("wav files/current.wav", fs, myrecording)
 
     def detect_note(self, audio_file):
-        # TODO : do documentation
+        """
+         preforms FFT on an audio file to produce frequency out of amplitude.
+
+         parameters:
+         an audio file
+
+         returns:
+         a note out of the json file
+         """
         file_length = audio_file.getnframes()
         f_s = audio_file.getframerate()  # sampling frequency
         sound = np.zeros(file_length)  # blank array
@@ -121,11 +125,6 @@ class NoteReadingPractice(Game):
                 break
 
         self.detected_note = note  # the note detected
-        # print("detected note is: ", end="")
-        # print(self.detected_note)
-
-    def feedback(self):
-        print(self.note_compare())
 
     def generate_random_note(self):
         """
@@ -139,7 +138,6 @@ class NoteReadingPractice(Game):
         """
         randnum = random.randint(0, self.noteamount - 1)
         self.current_note = self.arr[randnum]
-        print(self.arr[randnum])
         return self.arr[randnum]
 
     def note_compare(self):

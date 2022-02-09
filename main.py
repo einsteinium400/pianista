@@ -53,7 +53,6 @@ class MainWindow(Screen, FloatLayout):
 
     def change_experty(self, num):
         MainWindow.experty=num
-        print(MainWindow.experty)
 
 
 class BeginnerWindow(Screen):
@@ -106,7 +105,6 @@ class AbsoluteHearing(Screen):
     def __init__(self, **kw):
         self.ah = AbsoluteHearingMode()
         super().__init__(**kw)
-        # this item holds object of class notereadingpractice
 
     def note_clicked(self, instance):
         """
@@ -170,7 +168,6 @@ class AbsoluteHearing(Screen):
         # animation on the right answer that color the note
         anim = Animation(background_color=[0, 0, 0, 0]) + Animation(
             background_color=[212 / 255, 186 / 255, 154 / 255, 1])
-        print(type(anim))
         anim.start(self.ids[id_b])
 
     def start(self):
@@ -210,8 +207,31 @@ class AbsoluteHearing(Screen):
 
 
 class NoteReading(Screen):
+    """
+    A class to link between GUI and NoteReadingPractice class.
+
+    Attributes:
+    thread_kill(int): if 0, thread is awaiting. if 1, thread is running
+    notespractice(NoteReadingPractice): attribute of NoteReadingPractice class
+    t(thread): runs the notedisplaylogic function.
+    notes(array): every note that has added to the screen, will be added to notes array
+
+   Methods:
+      start_game_thread(self)
+            initializes thread flag, so thread can run
+      join_game_thread(self)
+            deletes the current instance of absolute hearing practice, and sets thread to sleep
+      notedisplaylogic(self)
+            runs as a thread that preforms the game logic.
+      display_note(self, note, color)
+            given a note and a color, it will be displayed on the screen
+      remove_notes(self)
+            removes all of the notes displayed on the screen
+
+    """
 
     def __init__(self, **kwargs):
+        #initializes the lines
         self.barspace = 20  # Space between lines
         self.barheight = 1.5  # Height (size) of lines
         self.notewidth = 64  # Width of a note
@@ -231,10 +251,7 @@ class NoteReading(Screen):
         self.t=threading.Thread(target=self.notedisplaylogic,daemon=True)
         self.t.start()
 
-        # t.start() #############
     def start_game_thread(self):
-        # self.notespractice = NoteReadingPractice(MainWindow.experty)
-        print("start")
         self.thread_kill=0
 
     def join_game_thread(self):
@@ -254,7 +271,6 @@ class NoteReading(Screen):
                         self.notespractice = NoteReadingPractice(MainWindow.experty)
                         break
 
-            # print("fuck everything")
             self.notespractice.generate_random_note()
 
             # display the note generates
@@ -279,13 +295,12 @@ class NoteReading(Screen):
                     user_success = self.notespractice.note_compare()
 
                     if user_success:
+                        #display note as successful- in green
                         self.display_note(self.notespractice.detected_note, "green")
                         sleep(4)
                         continue
 
                     else:
-                        print(self.notespractice.detected_note)
-                        print(self.notespractice.detected_note)
                         if self.notespractice.detected_note["pos_x"].isnumeric():
                             self.display_note(self.notespractice.detected_note, "red")
 
@@ -303,6 +318,7 @@ class NoteReading(Screen):
         y_position = int(note["pos_y"])
 
         image_address = "images/" + color + ".png"
+        #add note to screen
         newNote.add(
             Rectangle(
                 color="black",
@@ -323,11 +339,13 @@ class NoteReading(Screen):
                 )
             )
 
+        #add to notes array
         self.notes.append(newNote)
         self.canvas.after.add(newNote)
 
     @mainthread
     def remove_notes(self):
+        #for all notes in notes array and remove from screen
         for i in self.notes:
             self.canvas.after.remove(i)
         self.notes = []

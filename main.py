@@ -42,11 +42,6 @@ class OpenWindow(Screen):
 
 class MainWindow(Screen, FloatLayout):
     experty = 0
-    """
-    A class used to link between the GUi and the games.
-    Attributes:
-    experty (int): The experty the user chose.
-    """
     def __init__(self, **kwargs):
         MainWindow.experty = 0
         super().__init__(**kwargs)
@@ -257,7 +252,10 @@ class NoteReading(Screen):
     def join_game_thread(self):
         self.thread_kill=1
         self.remove_notes()
-        del self.notespractice
+        try:
+            del self.notespractice
+        except:
+            pass
 
     def notedisplaylogic(self):
 

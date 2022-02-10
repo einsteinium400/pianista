@@ -5,6 +5,7 @@ import random
 from kivy.animation import Animation
 # for note compare
 from kivy.config import Config
+
 Config.set('input', 'mouse', 'mouse,multitouch_on_demand')
 import time
 import wave
@@ -29,29 +30,29 @@ class OpenWindow(Screen):
 
         # animation of logo
         self.logo = Image(source='images/pianista.png', opacity=0)
-        animated_icon = Animation(opacity=0.25)+Animation(opacity=0.5) +Animation(opacity=0.75)+ Animation(opacity=1)
+        animated_icon = Animation(opacity=0.25) + Animation(opacity=0.5) + Animation(opacity=0.75) + Animation(
+            opacity=1)
         self.add_widget(self.logo)
         animated_icon.start(self.logo)
         # go to next page after 10 seconds
-        Clock.schedule_once(self.callNext,10)
+        Clock.schedule_once(self.callNext, 10)
 
     def callNext(self, dt):
         self.manager.current = 'main'
 
 
-
 class MainWindow(Screen, FloatLayout):
     experty = 0
+
     def __init__(self, **kwargs):
         MainWindow.experty = 0
         super().__init__(**kwargs)
 
     def change_experty(self, num):
-        MainWindow.experty=num
+        MainWindow.experty = num
 
 
 class BeginnerWindow(Screen):
-
     """
     A class used to create Beginner Window.
     """
@@ -226,7 +227,7 @@ class NoteReading(Screen):
     """
 
     def __init__(self, **kwargs):
-        #initializes the lines
+        # initializes the lines
         self.barspace = 20  # Space between lines
         self.barheight = 1.5  # Height (size) of lines
         self.notewidth = 64  # Width of a note
@@ -240,17 +241,17 @@ class NoteReading(Screen):
         self.bottomline_bass = self.topline_bass + self.barspace * 4
 
         self.notes = []
-        self.thread_kill=1
+        self.thread_kill = 1
         # this item holds object of class notereadingpractice
         super().__init__(**kwargs)
-        self.t=threading.Thread(target=self.notedisplaylogic,daemon=True)
+        self.t = threading.Thread(target=self.notedisplaylogic, daemon=True)
         self.t.start()
 
     def start_game_thread(self):
-        self.thread_kill=0
+        self.thread_kill = 0
 
     def join_game_thread(self):
-        self.thread_kill=1
+        self.thread_kill = 1
         self.remove_notes()
         try:
             del self.notespractice
@@ -260,12 +261,12 @@ class NoteReading(Screen):
     def notedisplaylogic(self):
 
         while True:
-            if (self.thread_kill==1):
-                #we dont want to kill the thread, just hold it
+            if (self.thread_kill == 1):
+                # we dont want to kill the thread, just hold it
                 while True:
-                    #thread is sleeping
+                    # thread is sleeping
                     if (self.thread_kill == 0):
-                        #revive thread with desired experty level
+                        # revive thread with desired experty level
                         self.notespractice = NoteReadingPractice(MainWindow.experty)
                         break
 
@@ -276,8 +277,8 @@ class NoteReading(Screen):
 
             # record user
             user_success = False
-            while not user_success :
-                if self.thread_kill==1:
+            while not user_success:
+                if self.thread_kill == 1:
                     break
                 try:
                     self.notespractice.record_note()
@@ -293,7 +294,7 @@ class NoteReading(Screen):
                     user_success = self.notespractice.note_compare()
 
                     if user_success:
-                        #display note as successful- in green
+                        # display note as successful- in green
                         self.display_note(self.notespractice.detected_note, "green")
                         sleep(4)
                         continue
@@ -305,7 +306,6 @@ class NoteReading(Screen):
                 except:
                     pass
 
-
             self.remove_notes()
 
     @mainthread
@@ -316,7 +316,7 @@ class NoteReading(Screen):
         y_position = int(note["pos_y"])
 
         image_address = "images/" + color + ".png"
-        #add note to screen
+        # add note to screen
         newNote.add(
             Rectangle(
                 color="black",
@@ -337,13 +337,13 @@ class NoteReading(Screen):
                 )
             )
 
-        #add to notes array
+        # add to notes array
         self.notes.append(newNote)
         self.canvas.after.add(newNote)
 
     @mainthread
     def remove_notes(self):
-        #for all notes in notes array and remove from screen
+        # for all notes in notes array and remove from screen
         for i in self.notes:
             self.canvas.after.remove(i)
         self.notes = []
@@ -361,8 +361,9 @@ class MyApp(App):
     def build(self):
         # Create the screen manager
         sm = ScreenManager()
-        screen=Screen(name='MainWindow')
+        screen = Screen(name='MainWindow')
         sm.switch_to(screen, direction='right')
+
 
 if __name__ == '__main__':
     app = MyApp()

@@ -3,7 +3,7 @@ Pianista provides innovative tools for learning to play music like note reading 
 
 # Requirement
 * python 3.8
-* pip install -r requirements.txt
+* install all libraries: pip install -r requirements.txt
 * the user should own a piano
 # How To Start Game
 * python main.py

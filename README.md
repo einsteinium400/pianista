@@ -1,13 +1,9 @@
 # **Pianista**
 Pianista provides innovative tools for learning to play music like note reading practice, hearing development, or rhythm recognition.
 
-* Use json file to random notes.
-* Kivy Library for GUI Development
-* FFT-...
-
 # Requirement
 * python 3.8
-* pip install -r requirements.txt
+* install all libraries: pip install -r requirements.txt
 # How To Start Game
 * python main.py
 # How to Play- Note reading practice
